@@ -1,10 +1,47 @@
 /* eslint-disable prettier/prettier */
-'use client'
+'use client';
 
-import React from 'react'
-import { Grid, Typography, Box, Divider } from '@mui/material'
+import React, { useState } from 'react';
+import { Grid, Typography, Box, Divider } from '@mui/material';
+
+const destinations = [
+  {
+    name: 'MOON',
+    img: '/image-moon.png',
+    description:
+      'See our planet as you have never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While youre there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.',
+    distance: '384,400 km',
+    travelTime: '3 Days',
+  },
+  {
+    name: 'MARS',
+    img: '/image-mars.png',
+    description:
+      'Don’t forget to pack your hiking boots. You’ll need them to tackle Olympus Mons, the tallest planetary mountain in our solar system. Its two and a half times the size of Everest!',
+    distance: '225 Mil. km',
+    travelTime: '9 Months',
+  },
+  {
+    name: 'EUROPA',
+    img: '/image-europa.png',
+    description:
+      'The smallest of the four Galilean moons orbiting Jupiter, Europa is a winter lover dream.  With an icy surface, its perfect for a bit of ice skating, curling, hockey, or simple relaxation in your snug wintery cabin.',
+    distance: '628 Mil. km',
+    travelTime: '3 Years',
+  },
+  {
+    name: 'TITAN',
+    img: '/image-titan.png',
+    description:
+      'Venture to Saturn’s largest moon, Titan. Its dense atmosphere and methane lakes make it truly unique.',
+    distance: '1.6 Bil. km',
+    travelTime: '7 Years',
+  },
+];
 
 export default function MarsLanding() {
+  const [selected, setSelected] = useState(destinations[1]); // Default to MARS
+
   return (
     <Box
       sx={{
@@ -20,81 +57,6 @@ export default function MarsLanding() {
         p: { xs: 2, sm: 4, md: 6 },
       }}
     >
-
-      <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: { xs: 'center', md: 'flex-end' },
-          alignItems: 'center',
-          px: { xs: 1, sm: 3, md: 8 },
-          py: { xs: 1.5, md: 2 },
-          position: 'relative',
-          overflowX: 'auto',
-        }}
-      >
-     
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            backdropFilter: 'blur(20px)',
-            backgroundColor: 'rgba(255,255,255,0.05)',
-            px: { xs: 3, sm: 5, md: 6 },
-            py: 1.5,
-            borderRadius: 2,
-            gap: { xs: 3, sm: 5 },
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {[
-            { num: '00', label: 'HOME' },
-            { num: '01', label: 'DESTINATION' },
-            { num: '02', label: 'CREW' },
-            { num: '03', label: 'TECHNOLOGY' },
-          ].map((item) => (
-            <Box
-              key={item.label}
-              sx={{
-                position: 'relative',
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                fontSize: { xs: '0.8rem', sm: '0.9rem' },
-                letterSpacing: '2px',
-                color:
-                  item.label === 'DESTINATION' ? '#fff' : 'rgba(255,255,255,0.7)',
-                transition: 'color 0.3s ease',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: '-6px',
-                  left: 0,
-                  right: 0,
-                  height: '2px',
-                  backgroundColor:
-                    item.label === 'DESTINATION'
-                      ? '#fff'
-                      : 'rgba(255,255,255,0)',
-                  transition: 'all 0.3s ease',
-                },
-                '&:hover': {
-                  color: '#fff',
-                },
-                '&:hover::after': {
-                  backgroundColor: '#fff',
-                },
-              }}
-            >
-              <Typography component="span" sx={{ fontWeight: 600, mr: 1 }}>
-                {item.num}
-              </Typography>
-              {item.label}
-            </Box>
-          ))}
-        </Box>
-      </Box>
-
- 
       <Grid
         container
         spacing={4}
@@ -107,7 +69,7 @@ export default function MarsLanding() {
           textAlign: { xs: 'center', md: 'left' },
         }}
       >
-        {/* LEFT SIDE  */}
+        {/* LEFT SIDE */}
         <Grid
           item
           xs={12}
@@ -120,7 +82,6 @@ export default function MarsLanding() {
             gap: { xs: 3, sm: 5 },
           }}
         >
-          {/* TITLE */}
           <Typography
             sx={{
               letterSpacing: '3px',
@@ -135,11 +96,10 @@ export default function MarsLanding() {
             PICK YOUR DESTINATION
           </Typography>
 
-          {/* MARS IMAGE */}
           <Box
             component="img"
-            src="/image-mars.png"
-            alt="Mars planet"
+            src={selected.img}
+            alt={`${selected.name} planet`}
             sx={{
               width: { xs: '65%', sm: '75%', md: '90%' },
               maxWidth: 400,
@@ -153,7 +113,7 @@ export default function MarsLanding() {
           />
         </Grid>
 
-        {/* RIGHT SIDE  */}
+        {/* RIGHT SIDE */}
         <Grid
           item
           xs={12}
@@ -166,12 +126,13 @@ export default function MarsLanding() {
             mt: { xs: 4, md: 0 },
           }}
         >
-     
+          {/* Destination Menu */}
           <Box sx={{ mb: { xs: 2, md: 3 } }}>
-            {['MOON', 'MARS', 'EUROPA', 'TITAN'].map((item) => (
+            {destinations.map((item) => (
               <Typography
-                key={item}
+                key={item.name}
                 component="span"
+                onClick={() => setSelected(item)}
                 sx={{
                   mx: { xs: 1, sm: 2 },
                   fontSize: { xs: '0.85rem', sm: '1rem' },
@@ -179,7 +140,7 @@ export default function MarsLanding() {
                   cursor: 'pointer',
                   position: 'relative',
                   pb: '4px',
-                  color: item === 'MARS' ? '#fff' : '#D0D6F9',
+                  color: item.name === selected.name ? '#fff' : '#D0D6F9',
                   '&::after': {
                     content: '""',
                     position: 'absolute',
@@ -187,7 +148,7 @@ export default function MarsLanding() {
                     left: 0,
                     right: 0,
                     height: '2px',
-                    backgroundColor: item === 'MARS' ? '#fff' : 'transparent',
+                    backgroundColor: item.name === selected.name ? '#fff' : 'transparent',
                   },
                   '&:hover': {
                     color: '#fff',
@@ -197,12 +158,11 @@ export default function MarsLanding() {
                   },
                 }}
               >
-                {item}
+                {item.name}
               </Typography>
             ))}
           </Box>
 
-          
           <Typography
             variant="h1"
             sx={{
@@ -212,10 +172,9 @@ export default function MarsLanding() {
               textTransform: 'uppercase',
             }}
           >
-            MARS
+            {selected.name}
           </Typography>
 
-          
           <Typography
             sx={{
               color: '#D0D6F9',
@@ -225,9 +184,7 @@ export default function MarsLanding() {
               maxWidth: 420,
             }}
           >
-            Don’t forget to pack your hiking boots. You’ll need them to tackle
-            Olympus Mons, the tallest planetary mountain in our solar system.
-            It’s two and a half times the size of Everest!
+            {selected.description}
           </Typography>
 
           <Divider
@@ -238,7 +195,6 @@ export default function MarsLanding() {
             }}
           />
 
-          
           <Box
             sx={{
               display: 'flex',
@@ -260,7 +216,7 @@ export default function MarsLanding() {
                 Avg. Distance
               </Typography>
               <Typography sx={{ fontSize: { xs: '1.4rem', sm: '1.8rem' }, mt: 1 }}>
-                225 Mil. km
+                {selected.distance}
               </Typography>
             </Box>
 
@@ -275,12 +231,12 @@ export default function MarsLanding() {
                 Est. Travel Time
               </Typography>
               <Typography sx={{ fontSize: { xs: '1.4rem', sm: '1.8rem' }, mt: 1 }}>
-                9 Months
+                {selected.travelTime}
               </Typography>
             </Box>
           </Box>
         </Grid>
       </Grid>
     </Box>
-  )
+  );
 }
